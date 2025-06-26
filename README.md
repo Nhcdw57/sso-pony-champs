@@ -1,5 +1,5 @@
 # pony-champs
 
 do:
-npm run dev
+"npm run dev"
 to start
