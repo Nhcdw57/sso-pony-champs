@@ -12,6 +12,7 @@ export const AudioContext = createContext(null);
 export const AudioProvider = ({ children }) => {
   const raceStartAudioRef = useRef(new Audio(RaceStartSound)); 
   const signUpAudioRef = useRef(new Audio(SignUpStartSound)); 
+  //const [voluem,setVolume] = useState(50);
   return (
     <AudioContext.Provider value={{raceStartAudioRef,signUpAudioRef}}>
       {children}

@@ -62,6 +62,7 @@ export function Controls() {
   const signUpCheckboxRef = useRef(null);
 
 
+
   useEffect(() => {
     raceStartAudioRef.current.volume = (raceSoundOn) ? volume / 100 : 0;
     signUpAudioRef.current.volume = (signupSoundOn) ? volume / 100 : 0;
@@ -166,22 +167,25 @@ export function Upcomming(props) {
     let minutes = time.getMinutes();
     let seconds = time.getSeconds();
 
-    if (minutes == 0 || minutes == 30) {
-      //race is happening now!
-      if(!raceNotified){
-        raceStartAudioRef.current.play();
-      }
-      setRaceNotified(true);
-    } else if (minutes == 55 || minutes == 25) {
-      //sign ups are happening now!
-      if(signupNotified){
-        signUpAudioRef.current.play();
-      }
-      setSignupNotified(true);
-    }else{
-      setRaceNotified(false);
-      setSignupNotified(false);
-    }
+    // if (minutes == 0 || minutes == 30 || !raceNotified) { //remember to remove after debugs
+    //   //race is happening now!
+    //   if(!raceNotified){
+    //     raceStartAudioRef.current.play();
+    //   }
+    //   setRaceNotified(true);
+    // } else if (minutes == 55 || minutes == 25 || raceNotified) { //remember to remove after debugs
+    //   //sign ups are happening now!
+    //   if(signupNotified){
+    //     signUpAudioRef.current.play();
+    //   }
+    //   setSignupNotified(true);
+    //   //remember to remove the following after debugs
+    //   setRaceNotified(false);
+    // }
+    // else{
+    //   setRaceNotified(false);
+    //   setSignupNotified(false);
+    // }
 
     if (minutes < 30) {
       time.setMinutes(30);
@@ -218,17 +222,44 @@ export function Upcomming(props) {
   useEffect(() => {
     let lastTime = Date.now();
     const timer = setInterval(() => {
-      let now = Date.now();
+      let now = new Date();
+
+      //testing if sound works better here:
+      let minutes = now.getMinutes();
+      if (minutes == 0 || minutes == 30) { 
+        setRaceNotified((oldValue) => {
+          let value = true;
+          if (!oldValue) {
+            raceStartAudioRef.current.play();
+          }
+          return value
+        })
+      } else if (minutes == 55 || minutes == 25) {
+        //sign ups are happening now!
+        setSignupNotified((oldValue) => {
+          let value = true;
+          if (!oldValue) {
+            signUpAudioRef.current.play();
+          }
+          return value
+        });
+      }
+      else {
+        setRaceNotified(false);
+        setSignupNotified(false);
+      }
+      // end of test
+
       let timeDiff = now - lastTime;
       if (timeDiff >= 1000) {
-        let nextBuffer = findNext(new Date(), 10);
+        let nextBuffer = findNext(new Date(), 18);
         setNextFirst(nextBuffer.shift());
         setNextRaces(nextBuffer);
         lastTime += now;
       }
     }, 100)
     return () => clearInterval(timer);
-  }, []);
+  }, [nextFirst, nextRaces]);
 
   // let check = checkRaceData(raceData());
   // console.log(check);
