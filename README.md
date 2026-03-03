@@ -2,4 +2,4 @@
 
 do:
 "npm run dev"
-to start
+to start locally
