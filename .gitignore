@@ -8,6 +8,9 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+frontend/node_modules/
+backend/venv/
+.env
 dist
 dist-ssr
 *.local
@@ -22,3 +25,14 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.sqlite3
+
+# Flask instance folder
+instance/
