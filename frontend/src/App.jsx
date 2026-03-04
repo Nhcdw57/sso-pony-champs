@@ -1,10 +1,7 @@
 import { useEffect, useState, useRef, useContext } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-import RaceStartSound from "./assets/RaceStart.mp3"
-import SignUpStartSound from "./assets/SignUpStart.mp3"
-import { AudioContext } from './main'
+import { AudioContext } from './hooks/AudioContext.jsx'
+import { RACEDATA } from './data/races.js';
 
 let serverDay = new Intl.DateTimeFormat("en-US", {
   timeZone: "Europe/Copenhagen",
@@ -137,6 +134,7 @@ export function Upcomming(props) {
 
   const { raceStartAudioRef, signUpAudioRef } = useContext(AudioContext);
 
+// ============================================(moving to ./data/schedule.js)
   function findNext(input = new Date(), amount = 4) {
     //returns an array of X <Tab> divs, X being the amount which also defaults to 4
     let time = new Date(input);
@@ -146,7 +144,7 @@ export function Upcomming(props) {
       nextRaceTimes.push(conversion());
       time.setMinutes(time.getMinutes() + 30);
     }
-    let timeTable = checkRaceData(raceData())[1];
+    let timeTable = checkRaceData(RACEDATA)[1];
     let nextFoundRaces = []
     for (let raceTimeArray of nextRaceTimes) {
       let raceTime = raceTimeArray[0];
@@ -160,7 +158,7 @@ export function Upcomming(props) {
     ))
   }
 
-
+// ============================================(moving to ./data/schedule.js)
   function roundedTime(input = new Date()) {
 
     let time = new Date(input);
@@ -259,7 +257,9 @@ export function Upcomming(props) {
       }
     }, 100)
     return () => clearInterval(timer);
-  }, [nextFirst, nextRaces]);
+  }, []);
+
+
 
   // let check = checkRaceData(raceData());
   // console.log(check);
@@ -293,123 +293,125 @@ export function Tabs(props) {
 
 
 
+// ============================================(moving to ./data/races.js)
+// function raceData() {
+//   //contains the race data
+//   let newHillcrest = {
+//     raceName: "New Hillcrest",
+//     Monday: ["05:30", "10:00", "15:00", "22:00"],
+//     Tuesday: ["05:00", "09:30", "14:30", "21:30"],
+//     Wednesday: ["04:30", "09:00", "14:00", "21:00"],
+//     Thursday: ["04:00", "08:30", "13:30", "16:30", "20:30"],
+//     Friday: ["03:00", "07:30", "12:30", "19:30"],
+//     Saturday: ["04:30", "09:30", "14:30", "18:30", "23:30"],
+//     Sunday: ["03:30", "08:30", "13:30", "22:30"]
+//   };
+//   let jorvikStables = {
+//     raceName: "Jorvik Stables",
+//     Monday: ["02:30", "07:00", "14:30", "22:30"],
+//     Tuesday: ["02:00", "06:30", "14:00", "22:00"],
+//     Wednesday: ["01:30", "06:00", "13:30", "21:30"],
+//     Thursday: ["01:00", "05:30", "13:00", "21:00"],
+//     Friday: ["00:00", "04:30", "12:00", "15:30", "20:00"],
+//     Saturday: ["03:30", "06:30", "10:30", "17:30", "19:30"],
+//     Sunday: ["02:30", "09:30", "14:00", "18:30"]
+//   };
+//   let moorland = {
+//     raceName: "Moorland",
+//     Monday: ["00:00", "04:00", "08:00", "12:00", "16:00", "20:00"],
+//     Tuesday: ["03:30", "07:30", "11:30", "15:30", "19:30", "23:30"],
+//     Wednesday: ["03:00", "07:00", "11:00", "15:00", '17:00', '19:00', '23:00'],
+//     Thursday: ['02:30', '06:30', '10:30', '14:30', '18:30', '22:30'],
+//     Friday: ['01:30', '05:30', '09:30', '13:30', '17:30', '21:30'],
+//     Saturday: ['01:00', '07:00', '11:30', '16:00', '20:30'],
+//     Sunday: ['00:00', '04:30', '06:00', '10:30', '15:00', '19:30']
+//   };
+//   let silversongPony = {
+//     raceName: "Silversong Pony",
+//     Monday: ['01:00', '05:00', '09:00', '13:00', '17:00', '21:00'],
+//     Tuesday: ['00:30', '04:30', '08:30', '12:30', '16:30', '20:30'],
+//     Wednesday: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
+//     Thursday: ['03:30', '07:30', '11:30', '15:30', '19:30', '23:30'],
+//     Friday: ['02:30', '06:30', '10:30', '14:30', '16:30', '18:30', '22:30'],
+//     Saturday: ['02:00', '08:00', '12:30', '17:00', '21:30'],
+//     Sunday: ['01:00', '05:30', '07:00', '11:30', '16:00', '20:30']
+//   };
+//   let fortPinta = {
+//     raceName: "Fort Pinta",
+//     Monday: ['00:30', '04:30', '08:30', '12:30', '16:30', '18:00', '20:30'],
+//     Tuesday: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
+//     Wednesday: ['03:30', '07:30', '11:30', '15:30', '19:30', '23:30'],
+//     Thursday: ['03:00', '07:00', '11:00', '15:00', '19:00', '23:00'],
+//     Friday: ['02:00', '06:00', '10:00', '14:00', '18:00', '22:00'],
+//     Saturday: ['01:30', '07:30', '12:00', '16:30', '21:00'],
+//     Sunday: ['00:30', '05:00', '06:30', '11:00', '15:30', '20:00']
+//   };
+//   let firgrove = {
+//     raceName: "Firgrove",
+//     Monday: ['03:30', '09:30', '15:30', '21:30'],
+//     Tuesday: ['03:00', '09:00', '15:00', '21:00'],
+//     Wednesday: ['02:30', '08:30', '14:30', '20:30'],
+//     Thursday: ['02:00', '08:00', '12:00', '14:00', '20:00'],
+//     Friday: ['01:00', '07:00', '13:00', '19:00'],
+//     Saturday: ['00:00', '06:00', '10:00', '15:00', '19:00'],
+//     Sunday: ['04:00', '09:00', '17:30', '23:00']
+//   };
+//   let valedale = {
+//     raceName: "Valedale",
+//     Monday: ['06:00', '10:30', '14:00', '23:00'],
+//     Tuesday: ['05:30', '10:00', '13:30', '17:30', '22:30'],
+//     Wednesday: ['05:00', '09:30', '13:00', '22:00'],
+//     Thursday: ['04:30', '09:00', '12:30', '21:30'],
+//     Friday: ['03:30', '08:00', '11:30', '20:30'],
+//     Saturday: ['03:00', '09:00', '13:30', '22:30'],
+//     Sunday: ['02:00', '08:00', '12:30', '17:00', '21:30',]
+//   };
+//   let silvergladeVillage = {
+//     raceName: "Silverglade Village",
+//     Monday: ['03:00', '07:30', '13:30', '17:30', '19:30'],
+//     Tuesday: ['02:30', '07:00', '17:00', '19:00'],
+//     Wednesday: ['02:00', '06:30', '16:30', '18:30'],
+//     Thursday: ['01:30', '06:00', '16:00', '18:00'],
+//     Friday: ['00:30', '05:00', '15:00', '17:00'],
+//     Saturday: ['04:00', '05:30', '14:00', '18:00', '23:00'],
+//     Sunday: ['03:00', '13:00', '18:00', '22:00']
+//   };
+//   let baroness = {
+//     raceName: "Baroness",
+//     Monday: ['01:30', '11:00', '18:30', '23:30'],
+//     Tuesday: ['01:00', '10:30', '13:00', '18:00', '23:00'],
+//     Wednesday: ['00:30', '10:00', '17:30', '22:30'],
+//     Thursday: ['00:00', '09:30', '17:00', '22:00'],
+//     Friday: ['08:30', '16:00', '21:00', '23:00'],
+//     Saturday: ['02:30', '08:30', '13:00', '22:00'],
+//     Sunday: ['01:30', '07:30', '12:00', '16:30', '21:00']
+//   };
+//   let goldenhills = {
+//     raceName: "Goldenhills",
+//     Monday: ['02:00', '06:30', '11:30', '19:00'],
+//     Tuesday: ['01:30', '06:00', '11:00', '18:30'],
+//     Wednesday: ['01:00', '05:30', '10:30', '12:30', '18:00'],
+//     Thursday: ['00:30', '05:00', '10:00', '17:30'],
+//     Friday: ['04:00', '09:00', '11:00', '23:30'],
+//     Saturday: ['00:30', '05:00', '11:00', '15:30', '20:00'],
+//     Sunday: ['10:00', '14:30', '19:00', '23:30']
+//   };
+//   let unknownRace = {
+//     raceName: "UNKNOWN",
+//     Monday: [],
+//     Tuesday: [],
+//     Wednesday: [],
+//     Thursday: [],
+//     Friday: [],
+//     Saturday: [],
+//     Sunday: []
+//   }
+//   let raceList = [newHillcrest, jorvikStables, moorland, silversongPony, fortPinta, firgrove, valedale, silvergladeVillage, baroness, goldenhills, unknownRace];
+//   return raceList;
+// }
 
-function raceData() {
-  //contains the race data
-  let newHillcrest = {
-    raceName: "New Hillcrest",
-    Monday: ["05:30", "10:00", "15:00", "22:00"],
-    Tuesday: ["05:00", "09:30", "14:30", "21:30"],
-    Wednesday: ["04:30", "09:00", "14:00", "21:00"],
-    Thursday: ["04:00", "08:30", "13:30", "16:30", "20:30"],
-    Friday: ["03:00", "07:30", "12:30", "19:30"],
-    Saturday: ["04:30", "09:30", "14:30", "18:30", "23:30"],
-    Sunday: ["03:30", "08:30", "13:30", "22:30"]
-  };
-  let jorvikStables = {
-    raceName: "Jorvik Stables",
-    Monday: ["02:30", "07:00", "14:30", "22:30"],
-    Tuesday: ["02:00", "06:30", "14:00", "22:00"],
-    Wednesday: ["01:30", "06:00", "13:30", "21:30"],
-    Thursday: ["01:00", "05:30", "13:00", "21:00"],
-    Friday: ["00:00", "04:30", "12:00", "15:30", "20:00"],
-    Saturday: ["03:30", "06:30", "10:30", "17:30", "19:30"],
-    Sunday: ["02:30", "09:30", "14:00", "18:30"]
-  };
-  let moorland = {
-    raceName: "Moorland",
-    Monday: ["00:00", "04:00", "08:00", "12:00", "16:00", "20:00"],
-    Tuesday: ["03:30", "07:30", "11:30", "15:30", "19:30", "23:30"],
-    Wednesday: ["03:00", "07:00", "11:00", "15:00", '17:00', '19:00', '23:00'],
-    Thursday: ['02:30', '06:30', '10:30', '14:30', '18:30', '22:30'],
-    Friday: ['01:30', '05:30', '09:30', '13:30', '17:30', '21:30'],
-    Saturday: ['01:00', '07:00', '11:30', '16:00', '20:30'],
-    Sunday: ['00:00', '04:30', '06:00', '10:30', '15:00', '19:30']
-  };
-  let silversongPony = {
-    raceName: "Silversong Pony",
-    Monday: ['01:00', '05:00', '09:00', '13:00', '17:00', '21:00'],
-    Tuesday: ['00:30', '04:30', '08:30', '12:30', '16:30', '20:30'],
-    Wednesday: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
-    Thursday: ['03:30', '07:30', '11:30', '15:30', '19:30', '23:30'],
-    Friday: ['02:30', '06:30', '10:30', '14:30', '16:30', '18:30', '22:30'],
-    Saturday: ['02:00', '08:00', '12:30', '17:00', '21:30'],
-    Sunday: ['01:00', '05:30', '07:00', '11:30', '16:00', '20:30']
-  };
-  let fortPinta = {
-    raceName: "Fort Pinta",
-    Monday: ['00:30', '04:30', '08:30', '12:30', '16:30', '18:00', '20:30'],
-    Tuesday: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
-    Wednesday: ['03:30', '07:30', '11:30', '15:30', '19:30', '23:30'],
-    Thursday: ['03:00', '07:00', '11:00', '15:00', '19:00', '23:00'],
-    Friday: ['02:00', '06:00', '10:00', '14:00', '18:00', '22:00'],
-    Saturday: ['01:30', '07:30', '12:00', '16:30', '21:00'],
-    Sunday: ['00:30', '05:00', '06:30', '11:00', '15:30', '20:00']
-  };
-  let firgrove = {
-    raceName: "Firgrove",
-    Monday: ['03:30', '09:30', '15:30', '21:30'],
-    Tuesday: ['03:00', '09:00', '15:00', '21:00'],
-    Wednesday: ['02:30', '08:30', '14:30', '20:30'],
-    Thursday: ['02:00', '08:00', '12:00', '14:00', '20:00'],
-    Friday: ['01:00', '07:00', '13:00', '19:00'],
-    Saturday: ['00:00', '06:00', '10:00', '15:00', '19:00'],
-    Sunday: ['04:00', '09:00', '17:30', '23:00']
-  };
-  let valedale = {
-    raceName: "Valedale",
-    Monday: ['06:00', '10:30', '14:00', '23:00'],
-    Tuesday: ['05:30', '10:00', '13:30', '17:30', '22:30'],
-    Wednesday: ['05:00', '09:30', '13:00', '22:00'],
-    Thursday: ['04:30', '09:00', '12:30', '21:30'],
-    Friday: ['03:30', '08:00', '11:30', '20:30'],
-    Saturday: ['03:00', '09:00', '13:30', '22:30'],
-    Sunday: ['02:00', '08:00', '12:30', '17:00', '21:30',]
-  };
-  let silvergladeVillage = {
-    raceName: "Silverglade Village",
-    Monday: ['03:00', '07:30', '13:30', '17:30', '19:30'],
-    Tuesday: ['02:30', '07:00', '17:00', '19:00'],
-    Wednesday: ['02:00', '06:30', '16:30', '18:30'],
-    Thursday: ['01:30', '06:00', '16:00', '18:00'],
-    Friday: ['00:30', '05:00', '15:00', '17:00'],
-    Saturday: ['04:00', '05:30', '14:00', '18:00', '23:00'],
-    Sunday: ['03:00', '13:00', '18:00', '22:00']
-  };
-  let baroness = {
-    raceName: "Baroness",
-    Monday: ['01:30', '11:00', '18:30', '23:30'],
-    Tuesday: ['01:00', '10:30', '13:00', '18:00', '23:00'],
-    Wednesday: ['00:30', '10:00', '17:30', '22:30'],
-    Thursday: ['00:00', '09:30', '17:00', '22:00'],
-    Friday: ['08:30', '16:00', '21:00', '23:00'],
-    Saturday: ['02:30', '08:30', '13:00', '22:00'],
-    Sunday: ['01:30', '07:30', '12:00', '16:30', '21:00']
-  };
-  let goldenhills = {
-    raceName: "Goldenhills",
-    Monday: ['02:00', '06:30', '11:30', '19:00'],
-    Tuesday: ['01:30', '06:00', '11:00', '18:30'],
-    Wednesday: ['01:00', '05:30', '10:30', '12:30', '18:00'],
-    Thursday: ['00:30', '05:00', '10:00', '17:30'],
-    Friday: ['04:00', '09:00', '11:00', '23:30'],
-    Saturday: ['00:30', '05:00', '11:00', '15:30', '20:00'],
-    Sunday: ['10:00', '14:30', '19:00', '23:30']
-  };
-  let unknownRace = {
-    raceName: "UNKNOWN",
-    Monday: [],
-    Tuesday: [],
-    Wednesday: [],
-    Thursday: [],
-    Friday: [],
-    Saturday: [],
-    Sunday: []
-  }
-  let raceList = [newHillcrest, jorvikStables, moorland, silversongPony, fortPinta, firgrove, valedale, silvergladeVillage, baroness, goldenhills, unknownRace];
-  return raceList;
-}
 
+// ============================================(moving to ./data/schedule.js)
 function checkRaceData(raceList) {
   let days = ["Monday", 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   let raceTimeList = [

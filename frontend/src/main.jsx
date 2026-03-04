@@ -2,47 +2,36 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import { Timer, Upcomming, Title, Controls } from './App.jsx'
-import React, { createContext, useRef } from 'react';
-import RaceStartSound from "./assets/RaceStart.mp3"
-import SignUpStartSound from "./assets/SignUpStart.mp3"
+import { AudioProvider } from "./hooks/AudioContext.jsx"
 
-
-export const AudioContext = createContext(null);
-
-export const AudioProvider = ({ children }) => {
-  const raceStartAudioRef = useRef(new Audio(RaceStartSound)); 
-  const signUpAudioRef = useRef(new Audio(SignUpStartSound)); 
-  //const [voluem,setVolume] = useState(50);
-  return (
-    <AudioContext.Provider value={{raceStartAudioRef,signUpAudioRef}}>
-      {children}
-    </AudioContext.Provider>
-  );
-};
 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AudioProvider>
-      <div className='row'>
-        <div className='col'>
-          <Title />
+      <>
+      {/* everything in this blank tag will be moved to App.jsx, from here:... */}
+        <div className='row'>
+          <div className='col'>
+            <Title />
+          </div>
         </div>
-      </div>
-      <div className='row'>
-        <div className='col'>
-          <Timer />
+        <div className='row'>
+          <div className='col'>
+            <Timer />
+          </div>
         </div>
-      </div>
-      <div className='row'>
-        <div className='col'>
-          <Upcomming output="nextFirst" />
-          <Controls />
+        <div className='row'>
+          <div className='col'>
+            <Upcomming output="nextFirst" />
+            <Controls />
+          </div>
+          <div className='col'>
+            <Upcomming output="nextRaces" />
+          </div>
         </div>
-        <div className='col'>
-          <Upcomming output="nextRaces" />
-        </div>
-      </div>
+        {/*... to here */}
+      </>
     </AudioProvider>
 
 
