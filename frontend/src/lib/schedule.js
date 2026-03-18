@@ -1,15 +1,17 @@
 
 
-function findNext(input = new Date(), amount = 4) {
+// all set to export I think
+//================= this depends on: [roundedTime,checkRaceData]
+export function findNext(input = new Date(), amount = 4, fNData, sTT, sD) {
     //returns an array of X <Tab> divs, X being the amount which also defaults to 4
     let time = new Date(input);
-    let conversion = () => [serverTimeTable.format(roundedTime(time)), serverDay.format(roundedTime(time))];
+    let conversion = () => [sTT.format(roundedTime(time)), sD.format(roundedTime(time))];
     let nextRaceTimes = [];
     for (let i = 0; i < amount; i++) {
         nextRaceTimes.push(conversion());
         time.setMinutes(time.getMinutes() + 30);
     }
-    let timeTable = checkRaceData(raceData())[1];
+    let timeTable = checkRaceData(fNData)[1];
     let nextFoundRaces = []
     for (let raceTimeArray of nextRaceTimes) {
         let raceTime = raceTimeArray[0];
@@ -18,9 +20,7 @@ function findNext(input = new Date(), amount = 4) {
         nextFoundRaces.push([race.raceName, raceTime]);
     }
 
-    return nextFoundRaces.map((race, index) => (
-        <Tabs race={race[0]} raceTime={race[1]} key={index} />
-    ))
+    return nextFoundRaces
 }
 
 
@@ -60,6 +60,7 @@ function roundedTime(input = new Date()) {
     return time
 }
 
+//all set to export I think
 function checkRaceData(raceList) {
     let days = ["Monday", 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     let raceTimeList = [
