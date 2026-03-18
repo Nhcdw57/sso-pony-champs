@@ -259,7 +259,7 @@ export function Upcomming(props) {
       }
     }, 100)
     return () => clearInterval(timer);
-  }, []);
+  }, [nextFirst,nextRaces]);
 
 
 
