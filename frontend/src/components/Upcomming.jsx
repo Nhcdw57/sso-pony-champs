@@ -5,8 +5,8 @@ import { RACEDATA } from './data/races.js';
 export function Upcomming({serverTimeTable, serverDay}) {
   const [nextFirst, setNextFirst] = useState();
   const [nextRaces, setNextRaces] = useState([]);
-  const [raceNotified, setRaceNotified] = useState(false);
-  const [signupNotified, setSignupNotified] = useState(false);
+  const [raceNotified, setRaceNotified] = useState(false); // this state is utilized to sense a change in valid alert time to prevent repeated sound playing
+  const [signupNotified, setSignupNotified] = useState(false); // this state is utilized to sense a change in valid alert time to prevent repeated sound playing
 
   const { raceStartAudioRef, signUpAudioRef } = useContext(AudioContext);
 
@@ -17,7 +17,7 @@ export function Upcomming({serverTimeTable, serverDay}) {
 
       //testing if sound works better here:
       let minutes = now.getMinutes();
-      if (minutes == 0 || minutes == 30) {
+      if (minutes == 0 || minutes == 30) { //race is happening now!
         setRaceNotified((oldValue) => {
           let value = true;
           if (!oldValue) {
@@ -25,8 +25,7 @@ export function Upcomming({serverTimeTable, serverDay}) {
           }
           return value
         })
-      } else if (minutes == 55 || minutes == 25) {
-        //sign ups are happening now!
+      } else if (minutes == 55 || minutes == 25) { //sign ups are happening now!
         setSignupNotified((oldValue) => {
           let value = true;
           if (!oldValue) {
