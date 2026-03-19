@@ -1,8 +1,10 @@
 import { useContext, useState } from 'react';
 import { RACEDATA } from './data/races.js';
+import { findNext } from '../lib/schedule.js';
+import { Tabs } from '../App.jsx';
 
 
-export function Upcomming({serverTimeTable, serverDay}) {
+export function Upcomming({output, serverTimeTable, serverDay}) {
   const [nextFirst, setNextFirst] = useState();
   const [nextRaces, setNextRaces] = useState([]);
   const [raceNotified, setRaceNotified] = useState(false); // this state is utilized to sense a change in valid alert time to prevent repeated sound playing
@@ -33,8 +35,7 @@ export function Upcomming({serverTimeTable, serverDay}) {
           }
           return value
         });
-      }
-      else {
+      }else {
         setRaceNotified(false);
         setSignupNotified(false);
       }
@@ -58,9 +59,9 @@ export function Upcomming({serverTimeTable, serverDay}) {
     <div className='row'>
       <div className='col'></div>
       <div className='col-8 m-0 p-2'>
-        <h1 className='text-center text-light mx-4'>{(props.output === "nextFirst") ? "Next Race:" : "Following Races:"}</h1>
+        <h1 className='text-center text-light mx-4'>{(output === "nextFirst") ? "Next Race:" : "Following Races:"}</h1>
         <div className='card text-center' id="highlightFirst">
-          {(props.output === "nextFirst") ? nextFirst : nextRaces}
+          {(output === "nextFirst") ? nextFirst : nextRaces}
         </div>
       </div>
       <div className='col'></div>

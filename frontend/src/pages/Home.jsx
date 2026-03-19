@@ -56,7 +56,9 @@ export function Home(){
       }
       //Alarm logic ends
 
-      let nextBuffer = findNext(new Date(), 18, RACEDATA, serverTimeTable, serverDay);
+      let nextRaces = findNext(new Date(), 18, RACEDATA, serverTimeTable, serverDay);
+      let nextRace = nextRaces.shift();
+      let followingRaces = nextRaces;
 
       const delay = 1000 - (Date.now() % 1000);
       timer = setTimeout(tick,delay);
