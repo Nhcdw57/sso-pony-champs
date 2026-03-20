@@ -3,7 +3,7 @@
 // all set to export I think
 //================= this depends on: [roundedTime,checkRaceData]
 export function findNext(input = new Date(), amount = 4, fNData, sTT, sD) {
-    //returns an array of X <Tab> divs, X being the amount which also defaults to 4
+    //returns an array of race,time pairs, X being the amount which also defaults to 4
     let time = new Date(input);
     let conversion = () => [sTT.format(roundedTime(time)), sD.format(roundedTime(time))];
     let nextRaceTimes = [];
@@ -25,7 +25,7 @@ export function findNext(input = new Date(), amount = 4, fNData, sTT, sD) {
 
 
 //all set to export I think
-function roundedTime(input = new Date()) {
+function roundedTime(input = new Date()) { //figures out next race start time
 
     let time = new Date(input);
     let minutes = time.getMinutes();
@@ -61,7 +61,7 @@ function roundedTime(input = new Date()) {
 }
 
 //all set to export I think
-function checkRaceData(raceList) {
+function checkRaceData(raceList) { //actually, this function only validats the race list for conflicts of time or absence of a race in a time slot
     let days = ["Monday", 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     let raceTimeList = [
         '00:00', '00:30',

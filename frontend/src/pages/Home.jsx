@@ -21,14 +21,18 @@ let serverTimeTable = new Intl.DateTimeFormat("en-US", {
 });
 
 
-export function Home(){
+export function Home() {
   const [now, setNow] = useState(new Date());
   const [notified, setNotified] = useState(false);
   const { raceStartAudioRef, signUpAudioRef } = useContext(AudioContext);
+  const [nextRaces, setNextRaces] = useState([])
 
-  useEffect(()=>{
+  const nextRace = nextRaces[0];
+  const followingRaces = nextRaces.slice(1);
+
+  useEffect(() => {
     let timer;
-    function tick(){
+    function tick() {
       let n = new Date()
       setNow(n);
 
@@ -56,19 +60,19 @@ export function Home(){
       }
       //Alarm logic ends
 
-      let nextRaces = findNext(new Date(), 18, RACEDATA, serverTimeTable, serverDay);
-      let nextRace = nextRaces.shift();
-      let followingRaces = nextRaces;
+      let races = findNext(new Date(), 18, RACEDATA, serverTimeTable, serverDay);
+      setNextRaces(races);
+
 
       const delay = 1000 - (Date.now() % 1000);
-      timer = setTimeout(tick,delay);
+      timer = setTimeout(tick, delay);
     }
     tick();
-    return ()=>clearTimeout(timer)
-  },[])
+    return () => clearTimeout(timer)
+  }, [])
 
-    return(<>
-            {/* <div className='row'>
+  return (<>
+    <div className='row'>
               <div className='col'>
                 <Title />
               </div>
@@ -80,12 +84,12 @@ export function Home(){
             </div>
             <div className='row'>
               <div className='col'>
-                <Upcomming output="nextFirst" />
+                <Upcomming output="nextFirst" raceList={nextRace} />
                 <Controls />
               </div>
               <div className='col'>
-                <Upcomming output="nextRaces" />
+                <Upcomming output="nextRaces" raceList={followingRaces} />
               </div>
-            </div> */}
-          </>)
+            </div>
+  </>)
 }
