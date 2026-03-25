@@ -1,12 +1,33 @@
 import { useContext, useState } from 'react';
-import { Tabs } from '../App.jsx';
+import { Tabs } from '../components/Tabs';
 
 
 export function Upcomming({output, raceList}) {
-  const [nextFirst, setNextFirst] = useState();
-  const [nextRaces, setNextRaces] = useState([]);
-  const [raceNotified, setRaceNotified] = useState(false); // this state is utilized to sense a change in valid alert time to prevent repeated sound playing
-  const [signupNotified, setSignupNotified] = useState(false); // this state is utilized to sense a change in valid alert time to prevent repeated sound playing
+  // const [nextFirst, setNextFirst] = useState();
+  // const [nextRaces, setNextRaces] = useState([]);
+  // const [raceNotified, setRaceNotified] = useState(false); // this state is utilized to sense a change in valid alert time to prevent repeated sound playing
+  // const [signupNotified, setSignupNotified] = useState(false); // this state is utilized to sense a change in valid alert time to prevent repeated sound playing
+
+
+
+
+  return (
+    <div className='row'>
+      <div className='col'></div>
+      <div className='col-8 m-0 p-2'>
+        <h1 className='text-center text-light mx-4'>{(output === "nextFirst") ? "Next Race:" : "Following Races:"}</h1>
+        <div className='card text-center' id="highlightFirst">
+          {raceList?.map((race, index) => (
+          <Tabs race={race[0]} raceTime={race[1]} key={index} />
+        ))}
+        </div>
+      </div>
+      <div className='col'></div>
+    </div>
+  );
+}
+
+
 
   // const { raceStartAudioRef, signUpAudioRef } = useContext(AudioContext);
 
@@ -51,20 +72,3 @@ export function Upcomming({output, raceList}) {
   //   }, 100)
   //   return () => clearInterval(timer);
   // }, []);
-
-
-  return (
-    <div className='row'>
-      <div className='col'></div>
-      <div className='col-8 m-0 p-2'>
-        <h1 className='text-center text-light mx-4'>{(output === "nextFirst") ? "Next Race:" : "Following Races:"}</h1>
-        <div className='card text-center' id="highlightFirst">
-          {raceList.map((race, index) => (
-          <Tabs race={race[0]} raceTime={race[1]} key={index} />
-        ))}
-        </div>
-      </div>
-      <div className='col'></div>
-    </div>
-  );
-}

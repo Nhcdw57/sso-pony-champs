@@ -1,4 +1,5 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { AudioContext } from "../hooks/AudioContext";
 
 export function Controls() {
   const [volume, setVolume] = useState(50);

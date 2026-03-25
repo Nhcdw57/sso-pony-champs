@@ -1,6 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { findNext } from "../lib/schedule";
 import { RACEDATA } from "../data/races";
+import { AudioContext } from "../hooks/AudioContext";
+import { Title } from "../components/Title"
+import { Timer } from "../components/Timer";
+import { Upcomming } from "../components/Upcomming";
+import { Controls } from "../components/Controls";
 
 let serverDay = new Intl.DateTimeFormat("en-US", {
   timeZone: "Europe/Copenhagen",
@@ -84,7 +89,7 @@ export function Home() {
             </div>
             <div className='row'>
               <div className='col'>
-                <Upcomming output="nextFirst" raceList={nextRace} />
+                <Upcomming output="nextFirst" raceList={[nextRace]} />
                 <Controls />
               </div>
               <div className='col'>
