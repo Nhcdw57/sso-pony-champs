@@ -89,7 +89,7 @@ export function Home() {
             </div>
             <div className='row'>
               <div className='col'>
-                <Upcomming output="nextFirst" raceList={[nextRace]} />
+                {nextRace && <Upcomming output="nextFirst" raceList={[nextRace]} />}
                 <Controls />
               </div>
               <div className='col'>

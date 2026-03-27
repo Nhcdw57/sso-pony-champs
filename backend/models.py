@@ -1,12 +1,13 @@
 from sqlalchemy import Column, Integer, String, Time, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 from db import Base
+from app import db
 
-class Server(Base):
+class Server(db.Model):
     __tablename__ = "servers"
-    id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False, unique=True)
-    timezone = Column(String, nullable=False)  # e.g. "America/New_York"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False, unique=True)
+    timezone = db.Column(db.String, nullable=False)  # e.g. "America/New_York"
 
     def serialize(self):
         return{
@@ -15,10 +16,10 @@ class Server(Base):
             "timezone":self.timezone
         }
 
-class Race(Base):
+class Race(db.Model):
     __tablename__ = "races"
-    id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False, unique=True)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False, unique=True)
 
     times = relationship("RaceTime", back_populates="race", cascade="all, delete-orphan")
 
@@ -28,14 +29,14 @@ class Race(Base):
             "name":self.name
         }
 
-class RaceTime(Base):
+class RaceTime(db.Model):
     __tablename__ = "race_times"
-    id = Column(Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
 
-    race_id = Column(Integer, ForeignKey("races.id"), nullable=False)
-    weekday = Column(Integer, nullable=False)        # 0=Mon ... 6=Sun
-    start_time_local = Column(Time, nullable=False)  # e.g. 06:00
-    enabled = Column(Boolean, nullable=False, default=True)
+    race_id = db.Column(db.Integer, ForeignKey("races.id"), nullable=False)
+    weekday = db.Column(db.Integer, nullable=False)        # 0=Mon ... 6=Sun
+    start_time_local = db.Column(Time, nullable=False)  # e.g. 06:00
+    enabled = db.Column(db.Boolean, nullable=False, default=True)
 
     race = relationship("Race", back_populates="times")
 

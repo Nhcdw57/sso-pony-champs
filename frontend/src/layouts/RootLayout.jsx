@@ -8,7 +8,7 @@ export default function RootLayout() {
     <>
     <Navbar/>
 
-    <div className="container pt-4">
+    <div className="container-fluid p-0">
         <Outlet/>
     </div>
     </>
