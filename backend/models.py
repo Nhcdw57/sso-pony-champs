@@ -1,6 +1,4 @@
-from sqlalchemy import Column, Integer, String, Time, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
-from db import Base
 from app import db
 
 class Server(db.Model):
@@ -33,9 +31,9 @@ class RaceTime(db.Model):
     __tablename__ = "race_times"
     id = db.Column(db.Integer, primary_key=True)
 
-    race_id = db.Column(db.Integer, ForeignKey("races.id"), nullable=False)
+    race_id = db.Column(db.Integer, db.ForeignKey("races.id"), nullable=False)
     weekday = db.Column(db.Integer, nullable=False)        # 0=Mon ... 6=Sun
-    start_time_local = db.Column(Time, nullable=False)  # e.g. 06:00
+    start_time_local = db.Column(db.Time, nullable=False)  # e.g. 06:00
     enabled = db.Column(db.Boolean, nullable=False, default=True)
 
     race = relationship("Race", back_populates="times")

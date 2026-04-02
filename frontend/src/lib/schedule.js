@@ -29,31 +29,10 @@ function roundedTime(input = new Date()) { //figures out next race start time
 
     let time = new Date(input);
     let minutes = time.getMinutes();
-    let seconds = time.getSeconds();
-
-    // if (minutes == 0 || minutes == 30 || !raceNotified) { //remember to remove after debugs
-    //   //race is happening now!
-    //   if(!raceNotified){
-    //     raceStartAudioRef.current.play();
-    //   }
-    //   setRaceNotified(true);
-    // } else if (minutes == 55 || minutes == 25 || raceNotified) { //remember to remove after debugs
-    //   //sign ups are happening now!
-    //   if(signupNotified){
-    //     signUpAudioRef.current.play();
-    //   }
-    //   setSignupNotified(true);
-    //   //remember to remove the following after debugs
-    //   setRaceNotified(false);
-    // }
-    // else{
-    //   setRaceNotified(false);
-    //   setSignupNotified(false);
-    // }
 
     if (minutes < 30) {
         time.setMinutes(30);
-    } else if (minutes > 30) {
+    } else if (minutes >= 30) {
         time.setHours(time.getHours() + 1);
         time.setMinutes(0);
     }
