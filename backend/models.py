@@ -19,7 +19,7 @@ class Race(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False, unique=True)
 
-    times = relationship("RaceTime", back_populates="race", cascade="all, delete-orphan")
+    times = relationship("RaceTime", back_populates="race")
 
     def serialize(self):
         return{
