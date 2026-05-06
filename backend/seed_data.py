@@ -94,14 +94,5 @@ RACES= [
     "Friday": ['04:00', '09:00', '11:00', '23:30'],
     "Saturday": ['00:30', '05:00', '11:00', '15:30', '20:00'],
     "Sunday": ['10:00', '14:30', '19:00', '23:30']
-  },{
-    "raceName": "UNKNOWN",
-    "Monday": [],
-    "Tuesday": [],
-    "Wednesday": [],
-    "Thursday": [],
-    "Friday": [],
-    "Saturday": [],
-    "Sunday": []
   }
 ]

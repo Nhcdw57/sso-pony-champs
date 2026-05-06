@@ -1,4 +1,5 @@
-from app import app, db
+from app import app
+from extensions import db
 from models import Race, RaceTime, Server
 from datetime import time
 from seed_data import RACES, SERVERS
@@ -15,6 +16,12 @@ def seed():
         #validates starting times & makes sure no duplicate slot listings & makes sure every race starting time has a race
         listed_starting_times = race_lookup_builder(RACES)
         validate_complete_schedule(listed_starting_times)
+
+        RaceTime.query.delete()
+        Race.query.delete()
+        # Server.query.delete()
+
+
         # servers?
 
         race_objects = {}

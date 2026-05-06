@@ -1,5 +1,5 @@
 from sqlalchemy.orm import relationship
-from app import db
+from extensions import db
 
 class Server(db.Model):
     __tablename__ = "servers"
@@ -29,6 +29,10 @@ class Race(db.Model):
 
 class RaceTime(db.Model):
     __tablename__ = "race_times"
+    __table_args__ = (
+        db.UniqueConstraint("weekday", "start_time_local", name="uq_race_times_weekday_start_time"),
+    )
+
     id = db.Column(db.Integer, primary_key=True)
 
     race_id = db.Column(db.Integer, db.ForeignKey("races.id"), nullable=False)
@@ -43,6 +47,7 @@ class RaceTime(db.Model):
             "id": self.id,
             "race_id":self.race_id,
             "weekday":self.weekday,
-            "start_time_local":self.start_time_local.strftime("%H:%M:%S"),
-            "enabled": self.enabled
+            "start_time_local":self.start_time_local.strftime("%H:%M"),
+            "enabled": self.enabled,
+            "race": self.race.serialize()
         }

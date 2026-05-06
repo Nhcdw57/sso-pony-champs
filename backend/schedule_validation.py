@@ -1,5 +1,4 @@
 from datetime import time
-import sys
 
 #builds time slots
 def generate_times():
@@ -42,7 +41,10 @@ def race_lookup_builder(races):
 
 # ensures there's a race for every time-slot
 def validate_complete_schedule(listed_time_slots):
+    problems = []
     for start_time in generate_times():
         start_time_lookup = (start_time["weekday"],start_time["time"].strftime("%H:%M"))
         if start_time_lookup not in listed_time_slots:
-            raise ValueError(f"Missing a race @ timeslot: {start_time_lookup}")
+            problems.append(f"Missing a race @ timeslot: {start_time_lookup}")
+    if problems:
+        raise ValueError("Schedule validation failed:\n" + "\n".join(problems))
