@@ -4,7 +4,7 @@ import { RACEDATA } from "../data/races";
 import { AudioContext } from "../hooks/AudioContext";
 import { Title } from "../components/Title"
 import { Timer } from "../components/Timer";
-import { Upcomming } from "../components/Upcomming";
+import { UpcommingOld } from "../components/UpcommingOld";
 import { Controls } from "../components/Controls";
 
 let serverDay = new Intl.DateTimeFormat("en-US", {
@@ -89,11 +89,11 @@ export function Home() {
             </div>
             <div className='row'>
               <div className='col'>
-                {nextRace && <Upcomming output="nextFirst" raceList={[nextRace]} />}
+                {nextRace && <UpcommingOld output="nextFirst" raceList={[nextRace]} />}
                 <Controls />
               </div>
               <div className='col'>
-                <Upcomming output="nextRaces" raceList={followingRaces} />
+                <UpcommingOld output="nextRaces" raceList={followingRaces} />
               </div>
             </div>
   </>)

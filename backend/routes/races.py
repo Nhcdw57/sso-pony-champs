@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 from models import RaceTime
 from extensions import db
@@ -11,12 +11,12 @@ def get_races():
     amount = request.args.get("amount", default=4, type=int)
     if amount < 2 or amount > 24:
         return jsonify({"error":"Invalid amount of races to show","amount":amount}), 400
-    timezone = request.args.get("timezone", default="Europe/Copenhagen", type=str)
+    timezoneRequested = request.args.get("timezone", default="Europe/Copenhagen", type=str)
     try:
-        tz = ZoneInfo(timezone)
+        tz = ZoneInfo(timezoneRequested)
     except ZoneInfoNotFoundError:
-        return jsonify({"error":"Invalid timezone input", "timezoneInput": timezone}), 400
-    time = datetime.now()
+        return jsonify({"error":"Invalid timezone input", "timezoneRequested": timezoneRequested}), 400
+    time = datetime.now(timezone.utc)
     server_time = time.astimezone(tz)
     minutes = server_time.minute
     if minutes < 30:

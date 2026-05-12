@@ -6,6 +6,7 @@ import { findNext } from './lib/schedule.js';
 import RootLayout from './layouts/RootLayout.jsx';
 import { Home } from './pages/Home.jsx';
 import { Route, Routes } from 'react-router-dom';
+import { BetaTestPage } from './pages/BetaTestPage.jsx';
 
 
 export function App(){
@@ -13,6 +14,7 @@ export function App(){
     <Routes>
       <Route path='/' element={<RootLayout/>}>
         <Route index element={<Home/>} ></Route>
+        <Route path='/beta' element={<BetaTestPage/>}/>
       </Route>
     </Routes>
   )
