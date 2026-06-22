@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SSO Race Timer Mockup - Wider</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      background: linear-gradient(180deg, #fff8fc 0%, #fff0f6 55%, #ffe8f2 100%);
+      color: #6e3f58;
+      min-height: 100vh;
+    }
+
+    .navbar {
+      height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(218, 116, 161, 0.18);
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: #b64f7d;
+    }
+
+    .page {
+      width: min(1100px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 22px 0 56px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .hero-card {
+      width: min(520px, 100%);
+      background: #fff;
+      border: 1px solid rgba(218, 116, 161, 0.2);
+      border-radius: 36px;
+      overflow: hidden;
+      box-shadow: 0 18px 44px rgba(218, 116, 161, 0.14);
+    }
+
+    .hero-image {
+      width: 100%;
+      height: 270px;
+      object-fit: cover;
+      display: block;
+      border-bottom: 1px solid rgba(218, 116, 161, 0.14);
+    }
+
+    .hero-info {
+      position: relative;
+      padding: 18px 22px 22px;
+      min-height: 128px;
+    }
+
+    .hero-copy-top {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #8f4f6d;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+
+    .hero-main {
+      text-align: center;
+      padding: 0 62px;
+    }
+
+    .hero-race-name {
+      font-size: 2.3rem;
+      font-weight: 800;
+      line-height: 1.05;
+      color: #7b3559;
+    }
+
+    .hero-race-time {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #d45b92;
+      margin-top: 6px;
+    }
+
+    .icon-btn {
+      border: 0;
+      border-radius: 50%;
+      cursor: pointer;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    .icon-btn.location {
+      width: 50px;
+      height: 50px;
+      font-size: 1.25rem;
+      background: linear-gradient(135deg, #f07cb0, #d9518f);
+      box-shadow: 0 10px 20px rgba(217, 81, 143, 0.25);
+    }
+
+    .hero-location {
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+    }
+
+    .timer-card {
+      width: min(280px, 100%);
+      min-height: 104px;
+      background: #fff;
+      border: 1px solid rgba(218, 116, 161, 0.2);
+      border-radius: 24px;
+      box-shadow: 0 12px 28px rgba(218, 116, 161, 0.12);
+      padding: 16px 18px 14px;
+      display: grid;
+      align-items: center;
+      position: relative;
+    }
+
+    .timer-main {
+      text-align: center;
+    }
+
+    .timer-label {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #8f4f6d;
+      margin-bottom: 5px;
+    }
+
+    .timer-time {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: #b64f7d;
+      letter-spacing: 0.03em;
+    }
+
+    .timer-settings {
+      position: absolute;
+      right: 14px;
+      bottom: 12px;
+    }
+
+    .gear-btn {
+      width: 34px;
+      height: 34px;
+      border: 0;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f07cb0, #d9518f);
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .following-wrap {
+      width: min(620px, 100%);
+      background: #fff;
+      border: 1px solid rgba(218, 116, 161, 0.2);
+      border-radius: 34px;
+      box-shadow: 0 18px 44px rgba(218, 116, 161, 0.14);
+      padding: 16px 16px 20px;
+    }
+
+    .following-title {
+      text-align: center;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #7b3559;
+      margin-bottom: 16px;
+    }
+
+    .race-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .race-row-card {
+      background: linear-gradient(180deg, #fffdfd 0%, #fff6fa 100%);
+      border: 1px solid rgba(218, 116, 161, 0.18);
+      border-radius: 26px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 170px 1fr auto;
+      align-items: stretch;
+      min-height: 118px;
+    }
+
+    .race-thumb {
+      width: 170px;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .race-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 12px 18px;
+      min-width: 0;
+    }
+
+    .race-name {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: #7b3559;
+      line-height: 1.1;
+    }
+
+    .race-time {
+      margin-top: 6px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #d45b92;
+    }
+
+    .race-action {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 16px 0 0;
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(72, 30, 55, 0.34);
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 100;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-card {
+      width: min(620px, 100%);
+      background: #fff;
+      border: 1px solid rgba(218, 116, 161, 0.2);
+      border-radius: 28px;
+      box-shadow: 0 24px 50px rgba(218, 116, 161, 0.24);
+      padding: 20px;
+    }
+
+    .modal-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #b64f7d;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .modal-image {
+      width: 100%;
+      border-radius: 18px;
+      display: block;
+      border: 1px solid rgba(218, 116, 161, 0.14);
+      margin-bottom: 14px;
+    }
+
+    .controls-panel {
+      background: linear-gradient(180deg, #fff8fb 0%, #fff1f7 100%);
+      border: 1px solid rgba(218, 116, 161, 0.14);
+      border-radius: 22px;
+      padding: 18px;
+    }
+
+    .controls-label {
+      display: block;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #7b3559;
+      margin-bottom: 10px;
+    }
+
+    .range-line {
+      font-weight: 700;
+      color: #8f4f6d;
+      margin-bottom: 10px;
+    }
+
+    .volume-range {
+      width: 100%;
+      margin-bottom: 16px;
+      accent-color: #d9518f;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .control-btn {
+      border: 0;
+      border-radius: 14px;
+      padding: 11px 14px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .control-btn.primary {
+      background: linear-gradient(135deg, #f39cc2, #df5d97);
+      color: #fff;
+    }
+
+    .control-btn.secondary {
+      background: #ffe2ef;
+      color: #a04270;
+      border: 1px solid rgba(218, 116, 161, 0.18);
+    }
+
+    .check-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 10px;
+      color: #7b3559;
+      font-weight: 600;
+    }
+
+    .check-row input {
+      margin-top: 3px;
+      accent-color: #d9518f;
+    }
+
+    .modal-close {
+      width: 100%;
+      height: 44px;
+      border: 0;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #f7b2d0, #ec80af);
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 14px;
+    }
+
+    @media (max-width: 700px) {
+      .hero-card,
+      .following-wrap {
+        width: 100%;
+      }
+
+      .race-row-card {
+        grid-template-columns: 130px 1fr auto;
+      }
+
+      .race-thumb {
+        width: 130px;
+      }
+
+      .hero-main {
+        padding: 0 52px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .race-row-card {
+        grid-template-columns: 1fr;
+      }
+
+      .race-thumb {
+        width: 100%;
+        height: 150px;
+      }
+
+      .race-action {
+        padding: 0 0 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">Navbar</div>
+
+  <main class="page">
+    <section class="hero-card">
+      <img class="hero-image" src="https://picsum.photos/seed/hero-race/900/520" alt="Hero race placeholder" />
+      <div class="hero-info">
+        <div class="hero-copy-top">Next Race</div>
+        <div class="hero-main">
+          <div class="hero-race-name">Race Name</div>
+          <div class="hero-race-time">19:30</div>
+        </div>
+        <button class="icon-btn location hero-location" onclick="openLocation('Race Name')">+</button>
+      </div>
+    </section>
+
+    <section class="timer-card">
+      <div class="timer-main">
+        <div class="timer-label">Timer</div>
+        <div class="timer-time">19:24:12</div>
+      </div>
+      <div class="timer-settings">
+        <button class="gear-btn" onclick="openSettings()">⚙</button>
+      </div>
+    </section>
+
+    <section class="following-wrap">
+      <div class="following-title">Following Races</div>
+
+      <div class="race-list">
+        <article class="race-row-card">
+          <img class="race-thumb" src="https://picsum.photos/seed/race-1/340/220" alt="Race placeholder" />
+          <div class="race-copy">
+            <div class="race-name">Race Name</div>
+            <div class="race-time">20:00</div>
+          </div>
+          <div class="race-action">
+            <button class="icon-btn location" onclick="openLocation('Race Name')">+</button>
+          </div>
+        </article>
+
+        <article class="race-row-card">
+          <img class="race-thumb" src="https://picsum.photos/seed/race-2/340/220" alt="Race placeholder" />
+          <div class="race-copy">
+            <div class="race-name">Race Name</div>
+            <div class="race-time">20:30</div>
+          </div>
+          <div class="race-action">
+            <button class="icon-btn location" onclick="openLocation('Race Name')">+</button>
+          </div>
+        </article>
+
+        <article class="race-row-card">
+          <img class="race-thumb" src="https://picsum.photos/seed/race-3/340/220" alt="Race placeholder" />
+          <div class="race-copy">
+            <div class="race-name">Race Name</div>
+            <div class="race-time">21:00</div>
+          </div>
+          <div class="race-action">
+            <button class="icon-btn location" onclick="openLocation('Race Name')">+</button>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-overlay" id="locationModal">
+    <div class="modal-card">
+      <div class="modal-title" id="locationTitle">Race Location</div>
+      <img class="modal-image" id="locationImage" src="https://picsum.photos/seed/location-map/900/560" alt="Location placeholder" />
+      <button class="modal-close" onclick="closeLocation()">Close</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal-card">
+      <div class="modal-title">Controls</div>
+
+      <div class="controls-panel">
+        <label class="controls-label">Volume</label>
+        <div class="range-line">Volume: 50</div>
+        <input class="volume-range" type="range" min="0" max="100" value="50" />
+
+        <div class="button-row">
+          <button class="control-btn primary" type="button">Test Race Start Volume</button>
+          <button class="control-btn primary" type="button">Test Sign Up Start Volume</button>
+          <button class="control-btn secondary" type="button">Stop the Currently Playing Sound</button>
+        </div>
+
+        <label class="check-row">
+          <input type="checkbox" checked />
+          <span>Notify me when the race starts</span>
+        </label>
+
+        <label class="check-row">
+          <input type="checkbox" checked />
+          <span>Notify me when signing up for the race is available</span>
+        </label>
+      </div>
+
+      <button class="modal-close" onclick="closeSettings()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    function openLocation(raceName) {
+      document.getElementById("locationTitle").textContent = raceName + " Location";
+      document.getElementById("locationImage").src =
+        "https://picsum.photos/seed/" + encodeURIComponent(raceName + "-map") + "/900/560";
+      document.getElementById("locationModal").classList.add("open");
+    }
+
+    function closeLocation() {
+      document.getElementById("locationModal").classList.remove("open");
+    }
+
+    function openSettings() {
+      document.getElementById("settingsModal").classList.add("open");
+    }
+
+    function closeSettings() {
+      document.getElementById("settingsModal").classList.remove("open");
+    }
+
+    document.querySelectorAll(".modal-overlay").forEach((modal) => {
+      modal.addEventListener("click", function (event) {
+        if (event.target === modal) {
+          modal.classList.remove("open");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
