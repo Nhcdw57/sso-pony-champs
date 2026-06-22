@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
-import { Tabs } from '../components/Tabs';
+import { RaceCard } from '../betacomponents/RaceCard.jsx';
 
 
-export function Upcomming({ output, raceList }) {
+export function Upcomming({ output, onNav, raceList }) {
   // const [nextFirst, setNextFirst] = useState();
   // const [nextRaces, setNextRaces] = useState([]);
   // const [raceNotified, setRaceNotified] = useState(false); // this state is utilized to sense a change in valid alert time to prevent repeated sound playing
@@ -16,11 +16,11 @@ export function Upcomming({ output, raceList }) {
   return (
     <div className='row'>
       <div className='col'></div>
-      <div className='col-8 m-0 p-2'>
+      <div className='col-8 m-0 p-2' style={{ minWidth: "475px" }}>
         <h1 className='text-center text-light mx-4'>{(output === "nextFirst") ? "Next Race:" : "Following Races:"}</h1>
-        <div className='card text-center' id="highlightFirst">
+        <div className='card text-center' id="highlightFirst" >
           {raceList?.map((race, index) => (
-            <Tabs race={race["raceName"]} raceTime={race["raceTime"]} key={index} />
+            <RaceCard race={race} onNav={onNav} variant={(output === "nextFirst") ? "nextRace" : "following"} key={index} />
           ))}
         </div>
       </div>

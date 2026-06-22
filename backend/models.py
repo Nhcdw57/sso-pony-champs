@@ -18,13 +18,19 @@ class Race(db.Model):
     __tablename__ = "races"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False, unique=True)
+    fastTravel = db.Column(db.String, nullable=False, server_default="Unknown")
+    imageUrl = db.Column(db.String, nullable=True)
+    locationImageUrl = db.Column(db.String, nullable=True)
 
     times = relationship("RaceTime", back_populates="race")
 
     def serialize(self):
         return{
             "id": self.id,
-            "name":self.name
+            "name":self.name,
+            "fastTravel":self.fastTravel,
+            "imageUrl":self.imageUrl,
+            "locationImageUrl":self.locationImageUrl,
         }
 
 class RaceTime(db.Model):

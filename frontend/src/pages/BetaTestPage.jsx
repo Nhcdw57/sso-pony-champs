@@ -1,9 +1,11 @@
-import { useContext, useEffect, useState } from "react";
+import { use, useContext, useEffect, useState } from "react";
 import { AudioContext } from "../hooks/AudioContext";
 import { Title } from "../betacomponents/Title"
 import { Timer } from "../betacomponents/Timer";
 import { Upcomming } from "../betacomponents/Upcomming";
 import { Controls } from "../betacomponents/Controls";
+import placeholder from "../assets/placeholder.png";
+import { RaceLocationModal } from "../betacomponents/RaceLocationModal";
 
 export function BetaTestPage() {
   const [now, setNow] = useState(new Date());
@@ -15,6 +17,9 @@ export function BetaTestPage() {
 
   const nextRace = nextRaces[0];
   const followingRaces = nextRaces.slice(1);
+
+  const [selectedRace, setSelectedRace] = useState();
+  const [locationModalOpen, setLocationModalOpen] = useState(false);
 
   const API_URL = import.meta.env.VITE_API_BASE_URL
 
@@ -41,6 +46,11 @@ export function BetaTestPage() {
       setNextRaces(nextRacesData["nextRaces"])
     }
 
+  }
+
+  function onNavClick(race){
+    setSelectedRace(race);
+    setLocationModalOpen(true);
   }
 
   useEffect(() => {
@@ -85,27 +95,29 @@ export function BetaTestPage() {
 
   useEffect(() => {
     fetchRaces()
-  }, [timezone,amount])
+  }, [timezone, amount])
 
   return (<>
-    <div className='row'>
-      <div className='col'>
-        <Title />
-      </div>
+    <div className="home__bg">
+      <Title />
     </div>
-    <div className='row'>
-      <div className='col'>
-        <Timer serverDay={serverDay} serverTime={serverTime} now={now} />
+    <div>
+      <div className='row'>
+        <div className='col'>
+          <Timer serverDay={serverDay} serverTime={serverTime} now={now} />
+        </div>
       </div>
-    </div>
-    <div className='row'>
-      <div className='col'>
-        {nextRace && <Upcomming output="nextFirst" raceList={[nextRace]} />}
-        <Controls />
+      <div className='row px-3'>
+        <div className='col'>
+          {nextRace && <Upcomming output="nextFirst" onNav={onNavClick} raceList={[nextRace]} />}
+          {/* <Controls /> */}
+        </div>
+        <div className='col'>
+          <Upcomming output="nextRaces" onNav={onNavClick} raceList={followingRaces} />
+        </div>
       </div>
-      <div className='col'>
-        <Upcomming output="nextRaces" raceList={followingRaces} />
-      </div>
+
+      {locationModalOpen??(<RaceLocationModal race={selectedRace} onClose={setLocationModalOpen}/>)}
     </div>
   </>)
 }

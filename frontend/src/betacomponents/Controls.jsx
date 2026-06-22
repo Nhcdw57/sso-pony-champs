@@ -44,26 +44,23 @@ export function Controls() {
 
 
   return (
-    <div className='row'>
-      <div className='col'></div>
-      <div className='col-8'>
-        <h2 className='text-center text-light mx-4 mt-5'> Controls:</h2>
-        <form className='position-relative'>
-          <div className="card w-100 position-absolute top-0 start-50 translate-middle-x" style={{ minHeight: "188px", minWidth: "336px" }}>
+    <div className=''>
+        <form className=''>
+          <div className="card w-100 top-0 start-50 translate-middle-x my-shad" style={{ minHeight: "188px", minWidth: "336px" }}>
             <div className="card-body" style={{ backgroundColor: "pink" }}>
               <label className="form-label fs-3 fw-bold">Volume: {volume}</label>
-              <input type="range" className="form-range" id="volumeC" value={volume} min={0} max={100} onChange={volumeAdjust} />
-              <button type="button" className="btn btn-success mb-3 mx-2" onClick={() => play("raceStart")}>Test Race Start Volume</button>
-              <button type="button" className="btn btn-success mb-3 mx-2" onClick={() => play("signUpStart")}>Test Sign Up Start Volume</button>
-              <button type="button" className="btn btn-success mb-3 mx-2" onClick={stopCurrentSound}>Stop the Currently Playing Sound</button>
+              <input type="range" className="form-range volume-range" id="volumeC" value={volume} min={0} max={100} onChange={volumeAdjust} />
+              <button type="button" className="btn mb-3 mx-2 my-btn" onClick={() => play("raceStart")}>Test Race Start Alarm</button>
+              <button type="button" className="btn mb-3 mx-2 my-btn" onClick={() => play("signUpStart")}>Test Sign Up Start Alarm</button>
+              <button type="button" className="btn mb-3 mx-2 my-btn" onClick={stopCurrentSound}>Stop the Currently Playing Alarms</button>
               <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="" id="checkRaceStart" ref={raceStartCheckboxRef} checked={raceSoundOn} onChange={muteToggle} />
+                <input className="form-check-input my-check my-shad" type="checkbox" value="" id="checkRaceStart" ref={raceStartCheckboxRef} checked={raceSoundOn} onChange={muteToggle} />
                 <label className="form-check-label fs-6 fw-bold">
                   Notify me when the race starts
                 </label>
               </div>
               <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="" id="checkSignUp" ref={signUpCheckboxRef} checked={signupSoundOn} onChange={muteToggle} />
+                <input className="form-check-input my-check my-shad" type="checkbox" value="" id="checkSignUp" ref={signUpCheckboxRef} checked={signupSoundOn} onChange={muteToggle} />
                 <label className="form-check-label fs-6 fw-bold">
                   Notify me when signing up for the race is available
                 </label>
@@ -72,8 +69,6 @@ export function Controls() {
           </div>
         </form>
       </div>
-      <div className='col'></div>
-    </div>
 
   )
 

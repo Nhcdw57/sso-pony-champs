@@ -28,7 +28,7 @@ def seed():
 
         #races
         for race_data in RACES:
-            race = Race(name=race_data["raceName"])
+            race = Race(name=race_data["raceName"], fastTravel=race_data["fastTravel"])
             db.session.add(race)
             race_objects[race_data["raceName"]] = race
         db.session.flush()
