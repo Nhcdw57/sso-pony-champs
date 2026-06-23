@@ -34,6 +34,8 @@ export function BetaTestPage() {
     second: "2-digit",
     hour12: false
   });
+  
+  const signupStatus = calcSignups();
 
   async function fetchRaces() {
     const params = new URLSearchParams({
@@ -48,9 +50,36 @@ export function BetaTestPage() {
 
   }
 
-  function onNavClick(race){
+  function onNavClick(race) {
     setSelectedRace(race);
     setLocationModalOpen(true);
+  }
+
+  function calcSignups() {
+    let t = getServerMinSec(now,serverTime);
+    const minute = t.minute;
+    const second = t.second;
+    let nextTime =
+      minute < 25 ? 25 :
+        minute < 30 ? 30 :
+          minute < 55 ? 55 :
+            60;
+    const secondsLeft = (nextTime - minute) * 60 - second;
+    let format = `${Math.floor(secondsLeft / 60)}:${String(secondsLeft % 60).padStart(2, "0")}`;
+    let label = nextTime === 25 || nextTime === 55 ? `Signup opens in:` : `Signup closes in:`;
+    return {
+      mode: nextTime === 25 || nextTime === 55 ? "opens" : "closes",
+      format,
+      label,
+      secondsLeft
+    };
+  }
+
+  function getServerMinSec(nowTime, serverTimeZone) {
+    const parts = serverTimeZone.formatToParts(nowTime);
+    const minute = Number(parts.find((part) => part.type === "minute").value);
+    const second = Number(parts.find((part) => part.type === "second").value);
+    return {minute,second}
   }
 
   useEffect(() => {
@@ -59,8 +88,9 @@ export function BetaTestPage() {
       let n = new Date()
       setNow(n);
 
+      let t = getServerMinSec(n,serverTime);
       //Alarm logic
-      let minutes = n.getMinutes();
+      let minutes = t.minute;
       if (minutes == 0 || minutes == 30) { //race is happening now!
         setNotified((oldValue) => {
           let value = true;
@@ -109,7 +139,7 @@ export function BetaTestPage() {
       </div>
       <div className='row px-3'>
         <div className='col'>
-          {nextRace && <Upcomming output="nextFirst" onNav={onNavClick} raceList={[nextRace]} />}
+          {nextRace && <Upcomming output="nextFirst" onNav={onNavClick} raceList={[nextRace]} signupStatus={signupStatus} />}
           {/* <Controls /> */}
         </div>
         <div className='col'>
@@ -117,7 +147,7 @@ export function BetaTestPage() {
         </div>
       </div>
 
-      {locationModalOpen??(<RaceLocationModal race={selectedRace} onClose={setLocationModalOpen}/>)}
+      {locationModalOpen && (<RaceLocationModal race={selectedRace} onClose={() => setLocationModalOpen(false)} />)}
     </div>
   </>)
 }

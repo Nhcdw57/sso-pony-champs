@@ -19,6 +19,7 @@
 }
 
 .my-btn{
+  box-shadow: 0 2px 5px rgba(0,0,0,0.5);
   background: #e63ea5;
   color: white;
 }
@@ -26,11 +27,12 @@
 .my-btn:hover{
   color: #5e053c;
   background-color: #c2137f;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
   border-color: #a8096b;
 }
 
 .my-hBtn{
+  box-shadow: 0 2px 5px rgba(0,0,0,0.5);
   background: #8c3ee6;
   color: white;
   transition: transform 0.2s ease;
@@ -39,17 +41,28 @@
 .my-hBtn:hover{
   color: #9a76c4;
   background-color: #581aa0;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
   border-color: #a8096b;
   transform: scale(1.01);
 }
 
 .my-shad{
+  box-shadow: 0 2px 5px rgba(0,0,0,0.5);
   transition: transform 0.2s ease;
 }
 
 .my-shad:hover{
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  transform: scale(1.01);
+}
+
+.my-hShad{
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  transition: transform 0.2s ease;
+}
+
+.my-hShad:hover{
+  box-shadow: 0 5px 12px rgba(0,0,0,0.7);
   transform: scale(1.01);
 }
 
@@ -69,4 +82,22 @@
 
 .my-check:checked{
   background-color:#c43ee6
+}
+
+.my-modal{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 1rem;
+  border-radius: 1rem;
+  max-width: 50%;
+  z-index: 1001;
+}
+.my-modal-backdrop{
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
 }

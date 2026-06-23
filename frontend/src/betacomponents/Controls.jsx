@@ -46,8 +46,8 @@ export function Controls() {
   return (
     <div className=''>
         <form className=''>
-          <div className="card w-100 top-0 start-50 translate-middle-x my-shad" style={{ minHeight: "188px", minWidth: "336px" }}>
-            <div className="card-body" style={{ backgroundColor: "pink" }}>
+          <div className="card w-100 top-0 start-50 translate-middle-x my-shad" style={{ minHeight: "188px", minWidth: "336px" , backgroundColor:"pink"}}>
+            <div className="card-body">
               <label className="form-label fs-3 fw-bold">Volume: {volume}</label>
               <input type="range" className="form-range volume-range" id="volumeC" value={volume} min={0} max={100} onChange={volumeAdjust} />
               <button type="button" className="btn mb-3 mx-2 my-btn" onClick={() => play("raceStart")}>Test Race Start Alarm</button>
