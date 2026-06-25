@@ -101,3 +101,10 @@
   background: rgba(0, 0, 0, 0.5);
   z-index: 1000;
 }
+
+.my-accordion {
+  --bs-accordion-active-bg: #ffe2ef;
+  --bs-accordion-active-color: #972a68;
+  --bs-accordion-btn-focus-box-shadow: 0 0 0 0.25rem rgba(217, 81, 143, 0.25);
+  --bs-accordion-btn-focus-border-color: #d9518f;
+}

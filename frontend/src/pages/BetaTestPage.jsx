@@ -8,9 +8,22 @@ import placeholder from "../assets/placeholder.png";
 import { RaceLocationModal } from "../betacomponents/RaceLocationModal";
 
 export function BetaTestPage() {
+  const TIMEZONE_STORAGE_KEY = "ssoPonyChamps.timezone";
+
   const [now, setNow] = useState(new Date());
   const [amount, setAmount] = useState(18);
-  const [timezone, setTimezone] = useState("Europe/Copenhagen");
+  const [timezone, setTimezone] = useState(() => {
+    const storedTimezone = localStorage.getItem(TIMEZONE_STORAGE_KEY);
+
+    if (storedTimezone) {
+      return storedTimezone;
+    }
+
+    const localTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    localStorage.setItem(TIMEZONE_STORAGE_KEY, localTimezone);
+
+    return localTimezone;
+  });
   const [notified, setNotified] = useState(false);
   const { raceStartAudioRef, signUpAudioRef } = useContext(AudioContext);
   const [nextRaces, setNextRaces] = useState([])
@@ -34,7 +47,7 @@ export function BetaTestPage() {
     second: "2-digit",
     hour12: false
   });
-  
+
   const signupStatus = calcSignups();
 
   async function fetchRaces() {
@@ -56,7 +69,7 @@ export function BetaTestPage() {
   }
 
   function calcSignups() {
-    let t = getServerMinSec(now,serverTime);
+    let t = getServerMinSec(now, serverTime);
     const minute = t.minute;
     const second = t.second;
     let nextTime =
@@ -79,7 +92,7 @@ export function BetaTestPage() {
     const parts = serverTimeZone.formatToParts(nowTime);
     const minute = Number(parts.find((part) => part.type === "minute").value);
     const second = Number(parts.find((part) => part.type === "second").value);
-    return {minute,second}
+    return { minute, second }
   }
 
   useEffect(() => {
@@ -88,7 +101,7 @@ export function BetaTestPage() {
       let n = new Date()
       setNow(n);
 
-      let t = getServerMinSec(n,serverTime);
+      let t = getServerMinSec(n, serverTime);
       //Alarm logic
       let minutes = t.minute;
       if (minutes == 0 || minutes == 30) { //race is happening now!
@@ -134,7 +147,7 @@ export function BetaTestPage() {
     <div>
       <div className='row'>
         <div className='col'>
-          <Timer serverDay={serverDay} serverTime={serverTime} now={now} />
+          <Timer serverDay={serverDay} serverTime={serverTime} timeZone={timezone} now={now} changeTimeZone={setTimezone} changeFollowingAmount={setAmount} />
         </div>
       </div>
       <div className='row px-3'>

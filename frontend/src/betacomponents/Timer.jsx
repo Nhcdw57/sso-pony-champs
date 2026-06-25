@@ -1,7 +1,7 @@
 import { Settings } from "lucide-react";
 import { Controls } from "./Controls";
 
-export function Timer({ serverDay, serverTime, now }) {
+export function Timer({ serverDay, serverTime, now, timeZone, changeTimeZone, changeFollowingAmount }) {
   return (
     <div className="row p-4">
       <div className="col"></div>
@@ -26,11 +26,11 @@ export function Timer({ serverDay, serverTime, now }) {
             </button>
           </div>
           <div className="card-footer text-body-secondary d-flex justify-content-center">
-            <span className="text-center"> {`Server Timezone: Europe/Coppenhagen`} </span>
+            <span className="text-center"> {`Server Timezone: ${timeZone}`} </span>
           </div>
           
           <div className="pt-4 mt-1 card-footer collapse" id="controls">
-            <Controls />
+            <Controls timeZone={timeZone} changeTimeZone={changeTimeZone} changeFollowingAmount={changeFollowingAmount} />
           </div>
         </div>
       </div>
