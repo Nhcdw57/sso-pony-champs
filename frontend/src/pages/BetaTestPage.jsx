@@ -19,8 +19,8 @@ export function BetaTestPage() {
       return storedTimezone;
     }
 
-    const localTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    localStorage.setItem(TIMEZONE_STORAGE_KEY, localTimezone);
+    // const localTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    localStorage.setItem(TIMEZONE_STORAGE_KEY, "Europe/Copenhagen");
 
     return localTimezone;
   });
@@ -61,6 +61,11 @@ export function BetaTestPage() {
       setNextRaces(nextRacesData["nextRaces"])
     }
 
+  }
+
+  function changeTimeZone(selectedTimeZone){
+    setTimezone(selectedTimeZone)
+    localStorage.setItem(TIMEZONE_STORAGE_KEY, selectedTimeZone);
   }
 
   function onNavClick(race) {
@@ -147,7 +152,7 @@ export function BetaTestPage() {
     <div>
       <div className='row'>
         <div className='col'>
-          <Timer serverDay={serverDay} serverTime={serverTime} timeZone={timezone} now={now} changeTimeZone={setTimezone} changeFollowingAmount={setAmount} />
+          <Timer serverDay={serverDay} serverTime={serverTime} timeZone={timezone} now={now} changeTimeZone={changeTimeZone} changeFollowingAmount={setAmount} amount={amount} />
         </div>
       </div>
       <div className='row px-3'>

@@ -1,7 +1,7 @@
 import { Settings } from "lucide-react";
 import { Controls } from "./Controls";
 
-export function Timer({ serverDay, serverTime, now, timeZone, changeTimeZone, changeFollowingAmount }) {
+export function Timer({ serverDay, serverTime, now, timeZone, changeTimeZone, changeFollowingAmount, amount }) {
   return (
     <div className="row p-4">
       <div className="col"></div>

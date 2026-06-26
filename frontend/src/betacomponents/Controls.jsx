@@ -1,7 +1,8 @@
+import { Link } from "react-router-dom";
 import { useContext, useEffect, useRef, useState } from "react";
 import { AudioContext } from "../hooks/AudioContext";
 
-export function Controls({timeZone, changeTimeZone, changeFollowingAmount}) {
+export function Controls({ timeZone, changeTimeZone, changeFollowingAmount, amount }) {
   const [volume, setVolume] = useState(50);
   const [raceSoundOn, setRaceSoundOn] = useState(true);
   const [signupSoundOn, setSignupSoundOn] = useState(true);
@@ -11,6 +12,35 @@ export function Controls({timeZone, changeTimeZone, changeFollowingAmount}) {
   const raceStartCheckboxRef = useRef(null);
   const signUpCheckboxRef = useRef(null);
 
+  const SERVER_TIMEZONES = [
+    "Europe/Warsaw",
+    "Europe/Stockholm",
+    "Europe/Rome",
+    "Europe/Prague",
+    "Europe/Paris",
+    "Europe/Oslo",
+    "Europe/Moscow",
+    "Europe/Madrid",
+    "Europe/London",
+    "Europe/Kyiv",
+    "Europe/Istanbul",
+    "Europe/Helsinki",
+    "Europe/Copenhagen",
+    "Europe/Budapest",
+    "Europe/Berlin",
+    "Europe/Athens",
+    "Europe/Amsterdam",
+    "Australia/Sydney",
+    "Australia/Eucla",
+    "Asia/Seoul",
+    "Asia/Dubai",
+    "America/Toronto",
+    "America/New York",
+    "America/Mexico City",
+    "America/Los Angeles",
+    "America/Chicago",
+    "America/Belem"
+  ];
 
 
   useEffect(() => {
@@ -85,11 +115,11 @@ export function Controls({timeZone, changeTimeZone, changeFollowingAmount}) {
               </h2>
               <div id="collapseTwo" className="accordion-collapse collapse" data-bs-parent="#settingsAccordion">
                 <div className="accordion-body">
-                  <div className="mb-3">Unsure what timezone your server is in? Check the SSO Server Status page!
+                  <div className="mb-3">Unsure what timezone your server is in? <Link to={"https://www.starstable.com/server-status"} target="_blank">Check the SSO Server Status page!</Link>
                   </div>
 
-                  <select className="form-select" value={timeZone} onChange={(event) => changeTimeZone(event.target.value)}>
-                    {Intl.supportedValuesOf("timeZone").map((tz) => (
+                  <select className="form-select my-shad" value={timeZone} onChange={(event) => changeTimeZone(event.target.value)}>
+                    {SERVER_TIMEZONES.sort().map((tz) => (
                       <option key={tz} value={tz}>
                         {tz}
                       </option>
@@ -106,7 +136,16 @@ export function Controls({timeZone, changeTimeZone, changeFollowingAmount}) {
               </h2>
               <div id="collapseThree" className="accordion-collapse collapse" data-bs-parent="#settingsAccordion">
                 <div className="accordion-body">
-                  <strong>This is the third item’s accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It’s also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                  <div className="mb-3">Amount of Following Races to display:
+                  </div>
+
+                  <select className="form-select my-shad" value={amount} onChange={(event) => changeFollowingAmount(event.target.value)}>
+                    {new Array(23).fill(null).map((tz, index) => (
+                      <option key={index + 2} value={index + 2}>
+                        {index + 1}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
             </div>
