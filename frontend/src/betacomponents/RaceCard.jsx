@@ -22,7 +22,7 @@ export function RaceCard({ race, onNav, variant, signupStatus }) {
         </div>
       </div>
     ) : (
-      <div className='card m-3 my-hShad'>
+      <div className='card m-3 my-hShad' style={{backgroundColor: "#eedbe7" }}>
         <img src={placeholder} className="img-fluid mx-2 mt-2 rounded" alt="..."></img>
         <div className="card-body">
 

@@ -149,7 +149,7 @@ export function BetaTestPage() {
     <div className="home__bg">
       <Title />
     </div>
-    <div>
+    <div className="container-fluid">
       <div className='row'>
         <div className='col'>
           <Timer serverDay={serverDay} serverTime={serverTime} timeZone={timezone} now={now} changeTimeZone={changeTimeZone} changeFollowingAmount={setAmount} amount={amount} />
