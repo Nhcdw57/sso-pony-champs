@@ -4,7 +4,7 @@ import placeholder from "../assets/placeholder.png";
 export function RaceLocationModal({ race, onClose }) {
     return (
         <div className="my-modal-backdrop">
-            <div className="my-modal">
+            <div className="my-modal" style={{minWidth:"340px"}}>
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header text-center">

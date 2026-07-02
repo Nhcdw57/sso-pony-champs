@@ -1,4 +1,4 @@
-import { use, useContext, useEffect, useState } from "react";
+import { use, useContext, useEffect, useMemo, useState } from "react";
 import { AudioContext } from "../hooks/AudioContext";
 import { Title } from "../betacomponents/Title"
 import { Timer } from "../betacomponents/Timer";
@@ -19,10 +19,10 @@ export function BetaTestPage() {
       return storedTimezone;
     }
 
-    // const localTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    localStorage.setItem(TIMEZONE_STORAGE_KEY, "Europe/Copenhagen");
+    const defaultTimezone = "Europe/Copenhagen"
+    localStorage.setItem(TIMEZONE_STORAGE_KEY, defaultTimezone);
 
-    return localTimezone;
+    return defaultTimezone;
   });
   const [notified, setNotified] = useState(false);
   const { raceStartAudioRef, signUpAudioRef } = useContext(AudioContext);
@@ -40,13 +40,15 @@ export function BetaTestPage() {
     timeZone: timezone,
     weekday: "long"
   });
-  let serverTime = new Intl.DateTimeFormat("en-US", {
-    timeZone: timezone,
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false
-  });
+  const serverTime = useMemo(() => {
+    return new Intl.DateTimeFormat("en-US", {
+      timeZone: timezone,
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    });
+  }, [timezone]);
 
   const signupStatus = calcSignups();
 
@@ -63,7 +65,7 @@ export function BetaTestPage() {
 
   }
 
-  function changeTimeZone(selectedTimeZone){
+  function changeTimeZone(selectedTimeZone) {
     setTimezone(selectedTimeZone)
     localStorage.setItem(TIMEZONE_STORAGE_KEY, selectedTimeZone);
   }
@@ -139,7 +141,7 @@ export function BetaTestPage() {
     }
     tick();
     return () => clearTimeout(timer)
-  }, [])
+  }, [serverTime])
 
   useEffect(() => {
     fetchRaces()
@@ -155,14 +157,20 @@ export function BetaTestPage() {
           <Timer serverDay={serverDay} serverTime={serverTime} timeZone={timezone} now={now} changeTimeZone={changeTimeZone} changeFollowingAmount={setAmount} amount={amount} />
         </div>
       </div>
-      <div className='row px-3'>
-        <div className='col'>
-          {nextRace && <Upcomming output="nextFirst" onNav={onNavClick} raceList={[nextRace]} signupStatus={signupStatus} />}
-          {/* <Controls /> */}
+      <div className='row'>
+        <div className="col"></div>
+        <div className="col-11">
+          <div className="row">
+            <div className='col px-3'>
+              {nextRace && <Upcomming output="nextFirst" onNav={onNavClick} raceList={[nextRace]} signupStatus={signupStatus} />}
+              {/* <Controls /> */}
+            </div>
+            <div className='col px-3'>
+              <Upcomming output="nextRaces" onNav={onNavClick} raceList={followingRaces} />
+            </div>
+          </div>
         </div>
-        <div className='col'>
-          <Upcomming output="nextRaces" onNav={onNavClick} raceList={followingRaces} />
-        </div>
+        <div className="col"></div>
       </div>
 
       {locationModalOpen && (<RaceLocationModal race={selectedRace} onClose={() => setLocationModalOpen(false)} />)}

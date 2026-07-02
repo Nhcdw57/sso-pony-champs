@@ -3,9 +3,9 @@ import { Controls } from "./Controls";
 
 export function Timer({ serverDay, serverTime, now, timeZone, changeTimeZone, changeFollowingAmount, amount }) {
   return (
-    <div className="row p-4">
+    <div className="row py-4">
       <div className="col"></div>
-      <div className='col-4 card pb-2 my-shad' style={{ minWidth: "350px", backgroundColor: "#eedbe7" }}>
+      <div className='col-4 card pb-2 my-shad' style={{ minWidth: "300px", backgroundColor: "#eedbe7" }}>
         <div className="row">
           <div className="col-2"></div>
           <div className="col-8 my-2">

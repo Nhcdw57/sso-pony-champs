@@ -76,7 +76,7 @@ export function Controls({ timeZone, changeTimeZone, changeFollowingAmount, amou
   return (
     <div className=''>
       <form className=''>
-        <div className="card w-100 top-0 start-50 translate-middle-x" style={{ minHeight: "188px", minWidth: "336px", backgroundColor: "pink" }}>
+        <div className="card w-100 top-0 start-50 translate-middle-x" style={{ minHeight: "188px", backgroundColor: "pink" }}>
 
           <div className="accordion my-accordion" id="settingsAccordion">
             <div className="accordion-item my-shad" style={{ backgroundColor: "pink" }}>
@@ -120,8 +120,8 @@ export function Controls({ timeZone, changeTimeZone, changeFollowingAmount, amou
 
                   <select className="form-select my-shad" value={timeZone} onChange={(event) => changeTimeZone(event.target.value)}>
                     {SERVER_TIMEZONES.sort().map((tz) => (
-                      <option key={tz} value={tz}>
-                        {tz}
+                      <option key={tz} value={tz.replaceAll(" ","_")}>
+                        {tz.replaceAll("_"," ")}
                       </option>
                     ))}
                   </select>

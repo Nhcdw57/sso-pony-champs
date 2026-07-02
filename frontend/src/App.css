@@ -63,7 +63,7 @@
 
 .my-hShad:hover{
   box-shadow: 0 5px 12px rgba(0,0,0,0.7);
-  transform: scale(1.01);
+  transform: scale(1.03);
 }
 
 .volume-range::-webkit-slider-thumb {

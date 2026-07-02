@@ -30,7 +30,7 @@ def get_races():
         query_result = db.session.execute(command)
         race_time = query_result.scalar_one_or_none()
         if race_time is None:
-            return jsonify({"error":"No timeslot found in Database","weekday":server_time.weekday(),"locaStartTime":server_time.strftime("%H:%M")}), 500
+            return jsonify({"error":"No timeslot found in Database","weekday":server_time.weekday(),"localStartTime":server_time.strftime("%H:%M")}), 500
         next_races.append({"raceName":race_time.serialize()["race"]["name"], "raceTime":race_time.serialize()["start_time_local"], "fastTravel":race_time.serialize()["race"]["fastTravel"]})
         server_time = server_time+timedelta(minutes=30)
     
